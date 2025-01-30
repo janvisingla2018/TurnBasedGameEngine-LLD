@@ -24,15 +24,13 @@ public class RuleEngine {
             for(int index = 0; index < players.length; index++){
                 for(int i=0; i<3; i++){
                     for(int j=0; j<3; j++){
-                        Board b = board.copy();
                         Player player = new Player(players[index]);
-                        b.move(new Move(new Cell(i, j), player));
+                        Board b = board.move(new Move(new Cell(i, j), player));
                         boolean canStillWin = false;
                         for(int k=0; k<3; k++){
                             for(int l=0; l<3; l++){
-                                Board b1 = b.copy();
                                 forkCell = new Cell(k, l);
-                                b1.move(new Move(forkCell, player.flip()));
+                                Board b1 = b.move(new Move(forkCell, player.flip()));
                                 if(getState(b1).getWinner().equals(player.flip().symbol())){
                                     canStillWin = true;
                                     break;
