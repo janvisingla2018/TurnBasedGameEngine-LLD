@@ -1,6 +1,6 @@
-package game;
+package boards;
 
-import boards.TicTacToeBoard;
+import game.Move;
 
 public interface Board {
     public abstract void move(Move move);

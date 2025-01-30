@@ -1,25 +1,47 @@
 package api;
 
+import boards.Board;
 import boards.TicTacToeBoard;
 import game.*;
+import placements.DefensivePlacement;
+import placements.OffensivePlacement;
+import placements.Placement;
+
+import java.util.Optional;
 
 public class AIEngine {
-    public Move suggestMove(Board board, Player computer) {
+    RuleEngine ruleEngine = new RuleEngine();
+
+    public Move suggestMove(Board board, Player player) {
         if (board instanceof TicTacToeBoard) {
             TicTacToeBoard ticTacToeBoard = (TicTacToeBoard) board;
-            Move suggestion;
+            Cell suggestion;
             int threshold = 3;
             if (countMoves(ticTacToeBoard) < threshold) {
-                suggestion = getBasicMove(computer, ticTacToeBoard);
-            } else {
-                suggestion = getSmartMove(computer, ticTacToeBoard);
+                suggestion = getBasicMove(ticTacToeBoard);
+            } else if(countMoves(ticTacToeBoard) < threshold + 1) {
+                suggestion = getCellToPlay(player, ticTacToeBoard);
+            }else {
+                suggestion = getOptimalMove(player, ticTacToeBoard);
             }
             if (suggestion != null)
-                return suggestion;
+                return new Move(suggestion, player);
             throw new IllegalStateException("No such move");
         } else {
             throw new IllegalArgumentException("Invalid type");
         }
+    }
+
+    private Cell getOptimalMove(Player player, TicTacToeBoard ticTacToeBoard) {
+        Placement placement = OffensivePlacement.get();
+        while(placement.next() != null){
+            Optional<Cell> place = placement.place(ticTacToeBoard, player);
+            if(place.isPresent()){
+                return place.get();
+            }
+            placement = placement.next();
+        }
+        return null;
     }
 
     private int countMoves(TicTacToeBoard ticTacToeBoard) {
@@ -33,45 +55,30 @@ public class AIEngine {
         return count;
     }
 
-    private Move getSmartMove(Player player, TicTacToeBoard ticTacToeBoard) {
-        RuleEngine ruleEngine = new RuleEngine();
-
+    private Cell getCellToPlay(Player player, TicTacToeBoard ticTacToeBoard) {
         //Attacking moves
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if(ticTacToeBoard.getSymbol(i, j) == null){
-                    Move move = new Move(new Cell(i, j), player);
-                    TicTacToeBoard boardCopy = ticTacToeBoard.copy();
-                    boardCopy.move(move);
-                    if(ruleEngine.getState(boardCopy).isOver()) {
-                        return move;
-                    }
-                }
-            }
+        Placement placement = OffensivePlacement.get();
+        Optional<Cell> place =  placement.place(ticTacToeBoard, player);
+        if(place.isPresent()){
+            return place.get();
         }
 
         //Defensive moves
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
-                if(ticTacToeBoard.getSymbol(i, j) == null){
-                    Move move = new Move(new Cell(i, j), player.flip());
-                    TicTacToeBoard boardCopy = ticTacToeBoard.copy();
-                    boardCopy.move(move);
-                    if(ruleEngine.getState(boardCopy).isOver()) {
-                        return new Move(new Cell(i, j), player);
-                    }
-                }
-            }
+        placement = DefensivePlacement.get();
+        place = placement.place(ticTacToeBoard, player);
+        if(place.isPresent()){
+            return place.get();
         }
 
-        return getBasicMove(player, ticTacToeBoard);
+
+        return getBasicMove(ticTacToeBoard);
     }
 
-    public Move getBasicMove(Player computer, TicTacToeBoard ticTacToeBoard) {
+    public Cell getBasicMove(TicTacToeBoard ticTacToeBoard) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (ticTacToeBoard.getSymbol(i, j) == null) {
-                    return new Move(new Cell(i, j), computer);
+                    return new Cell(i, j);
                 }
             }
         }

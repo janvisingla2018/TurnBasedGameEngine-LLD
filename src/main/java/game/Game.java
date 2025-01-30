@@ -1,5 +1,7 @@
 package game;
 
+import boards.Board;
+
 public class Game {
     private GameConfig gameConfig;
     private Board board;

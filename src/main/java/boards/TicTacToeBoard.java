@@ -2,7 +2,6 @@ package boards;
 
 import api.Rule;
 import api.RuleSet;
-import game.Board;
 import game.Cell;
 import game.GameState;
 import game.Move;
@@ -10,9 +9,10 @@ import game.Move;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public class TicTacToeBoard implements Board {
+public class TicTacToeBoard implements CellBoard {
     private String cells[][] = new String[3][3];
 
+    @Override
     public String getSymbol(int row, int col) {
         return cells[row][col];
     }
@@ -53,11 +53,11 @@ public class TicTacToeBoard implements Board {
 
     public static RuleSet getRules() {
         RuleSet rules = new RuleSet();
-        rules.add(new Rule<TicTacToeBoard>((board) -> outerTraversals((i, j) -> board.getSymbol(i, j))));
-        rules.add(new Rule<TicTacToeBoard>((board) -> outerTraversals((i, j) -> board.getSymbol(j, i))));
-        rules.add(new Rule<TicTacToeBoard>((board) -> traverse(i -> board.getSymbol(i, i))));
-        rules.add(new Rule<TicTacToeBoard>((board) -> traverse(i -> board.getSymbol(i, 2 - i))));
-        rules.add(new Rule<TicTacToeBoard>((board) -> {
+        rules.add(new Rule((board) -> outerTraversals((i, j) -> board.getSymbol(i, j))));
+        rules.add(new Rule((board) -> outerTraversals((i, j) -> board.getSymbol(j, i))));
+        rules.add(new Rule((board) -> traverse(i -> board.getSymbol(i, i))));
+        rules.add(new Rule((board) -> traverse(i -> board.getSymbol(i, 2 - i))));
+        rules.add(new Rule((board) -> {
             int countOfFilledCells = 0;
             for(int i=0; i<3 ; i++){
                 for(int j=0; j<3 ; j++){
