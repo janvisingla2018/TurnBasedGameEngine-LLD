@@ -12,7 +12,7 @@ public class CentrePlacement implements Placement {
 
     private CentrePlacement() {}
 
-    public static synchronized Placement get() {
+    public static synchronized CentrePlacement get() {
         centrePlacement = (CentrePlacement) Utils.getIfNull(centrePlacement, CentrePlacement::new);
         return centrePlacement;
     }

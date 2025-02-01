@@ -12,7 +12,7 @@ public class CornerPlacement implements Placement {
 
     private CornerPlacement() {}
 
-    public static synchronized Placement get() {
+    public static synchronized CornerPlacement get() {
         cornerPlacement = (CornerPlacement) Utils.getIfNull(cornerPlacement, CornerPlacement::new);
         return cornerPlacement;
     }

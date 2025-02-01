@@ -13,6 +13,7 @@ import java.util.function.Function;
 
 public class TicTacToeBoard implements CellBoard {
     private String cells[][] = new String[3][3];
+
     private History history = new History();
 
     @Override
@@ -106,6 +107,20 @@ public class TicTacToeBoard implements CellBoard {
         if(possibleStreak)
             result = new GameState(true, traversal.apply(0));
         return result;
+    }
+
+    public enum Symbol {
+        X("X"), O("O");
+        String marker;
+
+        Symbol(String marker) {
+            this.marker = marker;
+        }
+
+        public String marker() {
+            return marker;
+        }
+
     }
 }
 

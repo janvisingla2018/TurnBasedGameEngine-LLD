@@ -13,7 +13,7 @@ public class DefensivePlacement implements Placement {
 
     private DefensivePlacement() {}
 
-    public static synchronized Placement get() {
+    public static synchronized DefensivePlacement get() {
         defensivePlacement = (DefensivePlacement) Utils.getIfNull(defensivePlacement, DefensivePlacement::new);
         return defensivePlacement;
     }

@@ -13,7 +13,7 @@ public class OffensivePlacement implements Placement {
 
     private OffensivePlacement() {}
 
-    public static synchronized Placement get() {
+    public static synchronized OffensivePlacement get() {
         offensivePlacement = (OffensivePlacement) Utils.getIfNull(offensivePlacement, OffensivePlacement::new);
         return offensivePlacement;
     }
