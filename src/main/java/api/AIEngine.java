@@ -21,7 +21,10 @@ public class AIEngine {
                 suggestion = getBasicMove(ticTacToeBoard);
             } else if(countMoves(ticTacToeBoard) < threshold + 1) {
                 suggestion = getCellToPlay(player, ticTacToeBoard);
-            }else {
+            } else if(player.getTimeUsedInMillis() > 100000){
+                suggestion = getBasicMove(ticTacToeBoard);
+            }
+            else {
                 suggestion = getOptimalMove(player, ticTacToeBoard);
             }
             if (suggestion != null)
