@@ -1,12 +1,11 @@
-import api.AIEngine;
-import api.GameEngine;
-import api.RuleEngine;
+import api.*;
 import boards.Board;
-import game.Cell;
-import game.Move;
-import game.Player;
+import command.builder.SendEmailCommandBuilder;
+import game.*;
 
 import java.util.Scanner;
+
+import static java.util.concurrent.TimeUnit.DAYS;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,10 +14,20 @@ public class Main {
         AIEngine aiEngine = new AIEngine();
         Board board = gameEngine.start("TicTacToe");
         RuleEngine ruleEngine = new RuleEngine();
+        EmailService emailService = new EmailService();
 
         Player human = new Player("X");
         Player computer = new Player("O");
 
+        GameFactory gameFactory = new GameFactory();
+        Game game = gameFactory.createGame();
+        if(human.getUser().activeAfter(10, DAYS)) {
+            emailService.execute(new SendEmailCommandBuilder()
+                                .user(human.getUser())
+                                .message("We are glad you are back!")
+                                .build()
+            );
+        }
         //make moves
         while(!ruleEngine.getState(board).isOver()){
             System.out.println("Make you move");
@@ -33,6 +42,13 @@ public class Main {
                 gameEngine.move(board, computerMove);
             }
         }
+
+        if(ruleEngine.getState(board).getWinner().equals(human.symbol()))
+            emailService.execute(new SendEmailCommandBuilder()
+                    .user(human.getUser())
+                    .message("Congratulations on the win!!")
+                    .build()
+            );
 
         System.out.println("Game Over : " +ruleEngine.getState(board));
     }

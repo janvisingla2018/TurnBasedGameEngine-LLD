@@ -22,4 +22,14 @@ public class GameFactory {
                 maxTimePerMove);
 
     }
+
+    public Game createGame() {
+        return  new Game(new GameConfig(null, false),
+                new TicTacToeBoard(),
+                null,
+                0,
+                null,
+                null);
+
+    }
 }
