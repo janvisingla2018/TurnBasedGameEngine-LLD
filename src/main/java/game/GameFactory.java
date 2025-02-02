@@ -4,7 +4,7 @@ import boards.TicTacToeBoard;
 
 public class GameFactory {
     public Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer) {
-        return  new Game(new GameConfig(3, maxTimePerPlayer!=null),
+        return  new Game(new GameConfig(maxTimePerMove, maxTimePerPlayer!=null),
                 new TicTacToeBoard(),
                 null,
                 0,
@@ -14,7 +14,7 @@ public class GameFactory {
     }
 
     public Game createGame(Integer maxTimePerMove, Integer maxTimePerPlayer, TicTacToeBoard startingBoard) {
-        return  new Game(new GameConfig(3, maxTimePerPlayer!=null),
+        return  new Game(new GameConfig(maxTimePerMove, maxTimePerPlayer!=null),
                 startingBoard,
                 null,
                 0,
@@ -24,7 +24,7 @@ public class GameFactory {
     }
 
     public Game createGame(int maxTimePerPlayer) {
-        return  new Game(new GameConfig(3, true),
+        return  new Game(new GameConfig(null, true),
                 new TicTacToeBoard(),
                 null,
                 0,
@@ -33,7 +33,7 @@ public class GameFactory {
     }
 
     public Game createGame() {
-        return  new Game(new GameConfig(null, true),
+        return  new Game(new GameConfig(null, false),
                 new TicTacToeBoard(),
                 null,
                 0,
