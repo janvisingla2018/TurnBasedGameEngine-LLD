@@ -77,12 +77,12 @@ public class GamePlayTest {
 
         while(!ruleEngine.getState(board).isOver()){
             int row = firstPlayerMoves[next][0], col = firstPlayerMoves[next][1];
-            Move humanMove = new Move(new Cell(row, col), human);
+            Move humanMove = new Move(Cell.getCell(row, col), human);
             gameEngine.move(board, humanMove);
 
             if(!ruleEngine.getState(board).isOver()) {
                 int sRow = secondPlayerMoves[next][0], sCol = secondPlayerMoves[next][1];
-                Move computerMove = new Move(new Cell(sRow, sCol), computer);
+                Move computerMove = new Move(Cell.getCell(sRow, sCol), computer);
                 gameEngine.move(board, computerMove);
             }
             next++;

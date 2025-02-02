@@ -23,13 +23,21 @@ public class GameFactory {
 
     }
 
+    public Game createGame(int maxTimePerPlayer) {
+        return  new Game(new GameConfig(3, true),
+                new TicTacToeBoard(),
+                null,
+                0,
+                maxTimePerPlayer,
+                null);
+    }
+
     public Game createGame() {
-        return  new Game(new GameConfig(null, false),
+        return  new Game(new GameConfig(null, true),
                 new TicTacToeBoard(),
                 null,
                 0,
                 null,
                 null);
-
     }
 }

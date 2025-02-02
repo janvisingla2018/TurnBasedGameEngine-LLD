@@ -27,7 +27,7 @@ public class CornerPlacement implements Placement {
         Cell corner = null;
         for(int i = 0; i < corners.length; i++){
             if(ticTacToeBoard.getSymbol(corners[i][0], corners[i][1]) == null){
-                corner = new Cell(corners[i][0], corners[i][1]);
+                corner = Cell.getCell(corners[i][0], corners[i][1]);
             }
         }
         return corner;

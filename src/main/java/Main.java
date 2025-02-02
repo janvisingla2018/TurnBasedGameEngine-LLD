@@ -38,7 +38,7 @@ public class Main {
             System.out.println("Make you move");
             System.out.println(board);
             int row = sc.nextInt(), col = sc.nextInt();
-            Move humanMove = new Move(new Cell(row, col), human);
+            Move humanMove = new Move(Cell.getCell(row, col), human);
             gameEngine.move(board, humanMove);
             System.out.println(board);
 

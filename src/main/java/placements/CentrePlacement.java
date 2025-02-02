@@ -25,7 +25,7 @@ public class CentrePlacement implements Placement {
     private Cell centre(Player player, TicTacToeBoard ticTacToeBoard) {
         Cell centre = null;
         if(ticTacToeBoard.getSymbol(1,1) == null){
-            centre = new Cell(1, 1);
+            centre = Cell.getCell(1, 1);
         }
         return centre;
     }
